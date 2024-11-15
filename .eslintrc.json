@@ -1,0 +1,10 @@
+{
+  "extends": ["next/core-web-vitals", "next/typescript"],
+  "rules": {
+    "@typescript-eslint/no-unused-vars": "warn",
+    "no-var": "error",
+    "@next/next/no-img-element": "off",
+    "@typescript-eslint/no-empty-interface": "warn",
+    "no-unused-vars": "off"  // 關閉原生的 no-unused-vars，使用 typescript 版本
+  }
+}
