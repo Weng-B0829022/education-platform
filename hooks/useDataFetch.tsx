@@ -10,7 +10,7 @@ export const useDataFetch = () => {
         queryKey: ['apiData'],
         queryFn: fetchData,
         enabled: shouldFetch,
-    });
+    }); 
 
     return {
         ...query,
