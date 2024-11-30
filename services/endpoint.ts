@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://163.25.111.55:8000'
+export const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL
 
 export const ENDPOINTS = {
     gen_video: `${BASE_URL}/storyboard/execute-generate-video`,

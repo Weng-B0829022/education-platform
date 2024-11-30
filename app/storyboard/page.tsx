@@ -70,8 +70,8 @@ const Storyboard = ({ storyboardData, storyboardTitle }: { storyboardData: Scene
     const [generationTime, setGenerationTime] = useState(0);
     const [selectedAvatar, setSelectedAvatar] = useState('woman1-full');
     const [uploadingVideo, setUploadingVideo] = useState(false);
-
-
+    const [uploadedImages, setUploadedImages] = useState<File[]>([]);
+    
     useEffect(() => {
         let timer: NodeJS.Timeout;
         if (generatingVideo) {
@@ -93,14 +93,14 @@ const Storyboard = ({ storyboardData, storyboardTitle }: { storyboardData: Scene
         setGenerationTime(0);
 
         try {
-            // 準備要發送的數據
-            //你好
-            console.log(storyboardData)
+            // 創建 FormData 對象來傳送檔案和數據
+            const formData = new FormData();
+            
             const dataToSend = {
                 title: storyboardTitle,
-                avatar: selectedAvatar.split('-')[0], // 新增：將選擇的主播角色加入發送的數據'
+                avatar: selectedAvatar.split('-')[0],
                 avatarType: selectedAvatar.split('-')[1],
-                storyboard: storyboardData.map((scene, index, array) => {
+                storyboard: storyboardData.map((scene) => {
                     return {
                         paragraph: scene.段落,
                         duration: scene.秒數,
@@ -108,16 +108,22 @@ const Storyboard = ({ storyboardData, storyboardTitle }: { storyboardData: Scene
                         imageDescription: scene.畫面描述,
                         voiceover: scene.旁白,
                         avatarCount: parseInt(scene.字數.replace(/[^0-9]/g, ''))
+                        // 移除 imageUrl
                     };
                 })
             };
 
+            // 將主要數據添加到 FormData
+            formData.append('story_object', JSON.stringify(dataToSend));
+
+            // 直接添加圖片檔案到 FormData
+            uploadedImages.forEach((file, index) => {
+                formData.append(`image_${index}`, file);
+            });
+
             const response = await fetch(`${ENDPOINTS.gen_video}`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ story_object: dataToSend })
+                body: formData
             });
             
             const result = await response.json();
@@ -195,6 +201,17 @@ const Storyboard = ({ storyboardData, storyboardTitle }: { storyboardData: Scene
 
     const headers = ['段落', '秒數', '畫面', '畫面描述', '旁白', '字數'];
 
+    const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const files = event.target.files;
+        if (files) {
+            setUploadedImages(prev => [...prev, ...Array.from(files)]);
+        }
+    };
+
+    const removeImage = (index: number) => {
+        setUploadedImages(prev => prev.filter((_, i) => i !== index));
+    };
+
     return (
         <div>
             
@@ -223,20 +240,48 @@ const Storyboard = ({ storyboardData, storyboardTitle }: { storyboardData: Scene
                                 </select>
                                 <button 
                                     onClick={handleGenerateVideo} 
-                                    className='mb-2 mt-2 w-full p-2 border border-gray-300 rounded-md bg-blue-500 shadow-sm  focus:outline-none text-white disabled:bg-blue-400'
-                                    disabled={generatingVideo}
-                                >{generatingVideo ? 
-                                    <div className="flex items-center justify-center">
-                                        <Loader2 className="h-4 w-4 animate-spin" />
-                                        <span>影片生成中 已過{generationTime}秒</span>
-                                    </div>
-                                    : '生成影片'}
+                                    className='mb-2 mt-2 w-full p-2 border border-gray-300 rounded-md bg-blue-500 shadow-sm focus:outline-none text-white disabled:bg-blue-400'
+                                    disabled={generatingVideo || uploadedImages.length < storyboardData.length}
+                                >
+                                    {generatingVideo ? 
+                                        <div className="flex items-center justify-center">
+                                            <Loader2 className="h-4 w-4 animate-spin" />
+                                            <span>影片生成中 已過{generationTime}秒</span>
+                                        </div>
+                                        : '生成影片'}
                                 </button>
+                                
+                                <div className="mt-4">
+                                    <p className="text-sm text-gray-600 mb-2">
+                                        需上傳 {storyboardData.length} 張圖片 (已上傳: {uploadedImages.length})
+                                    </p>
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        multiple
+                                        onChange={handleImageUpload}
+                                        className="hidden"
+                                        id="image-upload"
+                                    />
+                                    <label
+                                        htmlFor="image-upload"
+                                        className="w-full p-2 border border-gray-300 rounded-md bg-white text-center cursor-pointer block hover:bg-gray-50"
+                                    >
+                                        上傳圖片
+                                    </label>
+                                
+                                </div>
                             </>
                         }
                     </div>
                     <div className='flex-1'>
-                        {isStoryboardOpen && <StoryboardTable headers={headers} storyboardData={storyboardData} />}
+                        {isStoryboardOpen && 
+                            <StoryboardTable 
+                                headers={headers} 
+                                storyboardData={storyboardData} 
+                                uploadedImages={uploadedImages}
+                            />
+                        }
                     </div>
                 </div>
             </div>
