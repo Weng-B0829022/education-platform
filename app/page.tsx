@@ -24,8 +24,8 @@ function RawUploadPage(): JSX.Element {
 	const handlePdfUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
 		const files = event.target.files
 		if (files) {
-			const newFiles: UploadedFile[] = Array.from(files).map(file => ({
-				id: crypto.randomUUID(),
+			const newFiles: UploadedFile[] = Array.from(files).map((file, index) => ({
+				id: Date.now().toString() + index,
 				name: file.name,
 				file: file
 			}))
