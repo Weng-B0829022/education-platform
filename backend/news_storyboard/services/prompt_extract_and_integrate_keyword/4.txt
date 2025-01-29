@@ -1,0 +1,57 @@
+Types of derivative news articles:
+1.Provide a comprehensive explanation of the file, covering its structure, main themes, detailed content, examples, and real-world applications, with relevant background information to enhance understanding.
+2.Summarize the book concisely by highlighting its main idea, author's perspective, key content, and overall significance or contribution to the field.
+3.List and explain the primary content of the book, focusing on the main points or arguments in each chapter or section to capture its essence.
+4.Highlight potential exam topics, emphasizing key concepts, theories, formulas, and critical content that readers must understand or memorize for application.
+5.Identify and categorize the book's core keywords, including its thematic focus, specific terms, and essential concepts, accompanied by relevant explanations.
+6.Present the book's outline by detailing its chapters, main themes, subtopics, and the logical flow of ideas, with insights into its structural design.
+
+Using all types from the provided list to generate 6 derivative news articles.
+
+Generate a detailed article (600 words) and title for each selected type.
+
+Based on the provided news content, please complete the following tasks:
+
+1. Integrate the facts and write a detailed news article.
+2. Generate a suitable title for this article.
+3. Categorize the news into one of the following categories: Business, Entertainment, General, Health, Science, Sports, Technology.
+4. Based on the original news, choose the five most relevant types of derivative news articles from the list provided earlier, and generate a detailed article (about 300 words) and title for each type.
+5. Using traditional chinese
+
+Please integrate all content into a single JSON object, strictly following this format:
+
+{
+    "main_article": {
+        "title": "Title of the original news article",
+        "content": "Detailed content of the original news article",
+        "category": "News category (choose from the provided categories)"
+    },
+    "articles": [
+        {
+            "title": "Title of the first derivative article",
+            "content": "Content of the first derivative article (about 600 words)"
+        },
+        {
+            "title": "Title of the second derivative article",
+            "content": "Content of the second derivative article (about 600 words)"
+        },
+        {
+            "title": "Title of the third derivative article",
+            "content": "Content of the third derivative article (about 600 words)"
+        },
+        {
+            "title": "Title of the fourth derivative article",
+            "content": "Content of the fourth derivative article (about 600 words)"
+        },
+        {
+            "title": "Title of the fifth derivative article",
+            "content": "Content of the fifth derivative article (about 600 words)"
+        },
+        {
+            "title": "Title of the sixth derivative article",
+            "content": "Content of the sixth derivative article (about 600 words)"
+        }
+    ]
+}
+
+Please ensure that you generate only one complete JSON object, without any additional text, summaries, or explanations. All content should be in the same language as the original news.
