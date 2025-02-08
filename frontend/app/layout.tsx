@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { QueryProvider } from '@/lib/providers/query-provider';
+import Navbar from '@/components/Navbar/Navbar';
+import Sidebar from '@/components/Sidebar/Sidebar';
 import "./globals.css";
-
 
 export const metadata: Metadata = {
   title: "PhoenEY Education Platform",
@@ -16,8 +17,25 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <QueryProvider>{children}</QueryProvider>
-      </body>
+        <QueryProvider>
+          <div className="h-screen w-screen flex flex-col bg-[#F4F8FC]">
+            {/* Navbar */}
+            <Navbar className="h-14 m-2 rounded-xl bg-white shadow-sm" />
+            
+            {/* Main content area */}
+            <div className="flex flex-1 gap-2 p-2">
+              {/* Sidebar */}
+              <Sidebar className="w-[72px] rounded-xl bg-[#0066FF] text-white shadow-sm" />
+              
+              {/* Content */}
+                  <main className="flex-1 h-full rounded-xl bg-white shadow-sm overflow-auto">
+                      {children}
+                  </main>
+                  
+                </div>
+              </div>
+            </QueryProvider>
+          </body>
     </html>
   );
 }

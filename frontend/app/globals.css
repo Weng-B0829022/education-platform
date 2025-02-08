@@ -5,7 +5,30 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
+/* 在 app/globals.css 添加以下樣式 */
+@layer utilities {
+  .scrollbar-custom {
+    scrollbar-width: thin;
+    scrollbar-color: #2B8CFF transparent;
+  }
 
+  .scrollbar-custom::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollbar-custom::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-custom::-webkit-scrollbar-thumb {
+    background-color: #2B8CFF;
+    border-radius: 3px;
+  }
+
+  .scrollbar-custom:hover::-webkit-scrollbar-thumb {
+    background-color: #2B8CFF;
+  }
+}
 @layer base {
   :root {
     --background: 0 0% 100%;

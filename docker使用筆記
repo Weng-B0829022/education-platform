@@ -1,0 +1,12 @@
+docker ps
+docker images
+docker logs [containerID]
+docker-compose build
+docker-compose up
+docker-compose up -d
+docker rmi [imageID]
+
+
+docker tag django-next-backend dennisoooo/v1
+docker tag django-next-frontend dennisoooo/v1
+docker push dennisoooo/django-next-backend:edu-backend
