@@ -10,32 +10,30 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
+    children,
+    }: {
+children: React.ReactNode;
 }) {
-  return (
-    <html lang="en">
-      <body>
-        <QueryProvider>
-          <div className="h-screen w-screen flex flex-col bg-[#F4F8FC]">
-            {/* Navbar */}
-            <Navbar className="h-14 m-2 rounded-xl bg-white shadow-sm" />
+    return (
+        <html lang="en">
+        <body>
+            <QueryProvider>
+                <div className="h-screen w-screen flex flex-col bg-[#F4F8FC]">
+                    {/* Navbar */}
+                    <Navbar className="h-14 m-2 rounded-xl bg-white shadow-sm" />
+                    
+                    {/* Main content area */}
+                    <div className="flex flex-1 gap-2 p-2 min-h-0">
+                        <Sidebar className="w-[200px] h-full rounded-xl bg-white text-white shadow-sm overflow-hidden" />
             
-            {/* Main content area */}
-            <div className="flex flex-1 gap-2 p-2">
-              {/* Sidebar */}
-              <Sidebar className="w-[72px] rounded-xl bg-[#0066FF] text-white shadow-sm" />
-              
-              {/* Content */}
-                  <main className="flex-1 h-full rounded-xl bg-white shadow-sm overflow-auto">
-                      {children}
-                  </main>
-                  
+                        {/* Content */}
+                        <main className="flex-1 h-full rounded-xl bg-white shadow-sm overflow-auto">
+                            {children}
+                        </main>
+                    </div>
                 </div>
-              </div>
             </QueryProvider>
-          </body>
-    </html>
-  );
+        </body>
+        </html>
+    );
 }

@@ -127,7 +127,7 @@ def combine_media(story_object, uploaded_images):
         )
         setup_image(manager, random_id, "title.png", config['title'], copy_image=False)
         international_img_path = text_to_image(
-            "萬象新聞", 
+            "PhoenEX", 
             os.path.join(settings.BASE_DIR, 'font', "NotoSansTC-Bold.ttf"),
             os.path.join(settings.BASE_DIR, 'generated', str(random_id), "international.png"),
             padding=5

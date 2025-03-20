@@ -84,12 +84,16 @@ export default function Home() {
 			backgroundPosition: 'bottom',
 			backgroundRepeat: 'no-repeat',
 			backgroundSize: 'contain',
-			transition: 'background-image 0.5s ease-in-out'
+			transition: 'background-image 0.5s ease-in-out',
+			scrollbarWidth: 'thin',
+			scrollbarColor: '#CBD5E1 #F1F5F9',
 		}}>
+			
+
 			{/* Header Section */}
 			<div className="max-w-2xl mx-auto mb-16 text-center">
 				<h1 className="text-[32px] font-semibold text-gray-800 mb-4">
-					Choose Your Video Creation Path
+					Choose Your Video Creation Path!
 				</h1>
 				<p className="text-base text-gray-500">
 					Explore modes tailored to your creative needs. Effortless, professional, or detailed—your choice.

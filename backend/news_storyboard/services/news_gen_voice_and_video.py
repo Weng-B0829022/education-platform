@@ -10,9 +10,10 @@ import time
 from datetime import datetime
 from django.conf import settings
 
-API_BASE_IP = "157.157.221.29"
-VOICE_API_PORT = "32609"
-AVATAR_API_PORT = "32608"
+API_BASE_IP = "8.17.147.160"
+VOICE_API_PORT = "10046"
+AVATAR_API_PORT = "10065"
+
 # Configure logger
 logger = logging.getLogger(__name__)
 
@@ -68,30 +69,22 @@ def generate_voice(text, filename, save_directory, avatar):
         log_and_print(f"Failed request details - Text: {filtered_text}...,")
         return None
 
-def generate_video(manager, audio_file_name, avatar):
+def generate_video(idx, manager, audio_file_name, avatar):
     try:
         # 從 manager 中取得 random_id
         random_id = manager.storyboard.get('random_id', '')
-
-        # 音頻文件名現在只是一個名稱，重新構建完整路徑
         audio_file_path = os.path.join(settings.MEDIA_ROOT, 'generated', random_id, audio_file_name)
-        
         save_directory = os.path.dirname(audio_file_path)
         audio_filename = os.path.basename(audio_file_path)
-        
         video_filename = os.path.splitext(audio_filename)[0] + '.mp4'
-        
         save_path = os.path.join(save_directory, video_filename)
 
         # 檢查是否需要生成人偶視頻
-        paragraph_index = int(re.search(r'\d+', audio_filename).group()) - 1
-        need_avatar = manager.storyboard['storyboard'][paragraph_index].get('needAvatar', False)
-
+        print("正在生成第", idx, "個人像影片")
+        need_avatar = manager.storyboard['storyboard'][idx].get('needAvatar', False)
         if need_avatar:
-
-            log_and_print(f"開始使用音檔生成影片: {audio_file_name}")
             generator = FullBodyAvatarGenerator(
-                api_base_ip=API_BASE_IP, 
+                api_base_ip=API_BASE_IP,
                 api_port=AVATAR_API_PORT,
             )
             
@@ -163,8 +156,9 @@ def run_news_gen_voice_and_video(manager, storyboard_object, random_id, avatar_c
 
     # Generate video for each audio file and store both paths
     voice_and_video_paths = []
+    
     for idx, audio_file_path in enumerate(audio_file_paths):
-        video_path = generate_video(manager, audio_file_path, avatar)
+        video_path = generate_video(idx, manager, audio_file_path, avatar)
         if video_path:
             voice_and_video_paths.append({
                 'audios_path': audio_file_path,  # Only file name is stored

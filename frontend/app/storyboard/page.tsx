@@ -145,7 +145,7 @@ const Storyboard = ({ storyboardData, storyboardTitle }: { storyboardData: Scene
         }
     };
     const handleUploadVideo = async () => {
-        try{
+        try {
             setUploadingVideo(true);
             const response = await fetch(`${ENDPOINTS.upload_video}`, {
                 method: 'POST',
@@ -159,6 +159,8 @@ const Storyboard = ({ storyboardData, storyboardTitle }: { storyboardData: Scene
             if (!response.ok) {
                 throw new Error(result.message || 'Failed to generate video');
             }
+            // Add redirect after successful upload
+            window.location.href = `/edit/${generationResult?.random_id}`;
         } catch (error) {
             console.error('Error uploading video:', error);
         } finally {
@@ -208,8 +210,14 @@ const Storyboard = ({ storyboardData, storyboardTitle }: { storyboardData: Scene
         }
     };
 
-    const removeImage = (index: number) => {
-        setUploadedImages(prev => prev.filter((_, i) => i !== index));
+    const handleRemoveImage = (index: number) => {
+        const newImages = [...uploadedImages];
+        newImages[index] = undefined as any;  // 將該位置設為 undefined 而不是移除
+        setUploadedImages(newImages);
+    };
+
+    const handleUpdateImages = (newImages: File[]) => {
+        setUploadedImages(newImages);
     };
 
     return (
@@ -280,6 +288,8 @@ const Storyboard = ({ storyboardData, storyboardTitle }: { storyboardData: Scene
                                 headers={headers} 
                                 storyboardData={storyboardData} 
                                 uploadedImages={uploadedImages}
+                                onRemoveImage={handleRemoveImage}
+                                onUpdateImages={handleUpdateImages}
                             />
                         }
                     </div>

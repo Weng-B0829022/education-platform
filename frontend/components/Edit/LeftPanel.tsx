@@ -54,7 +54,7 @@ export default function ScenesList() {
             </div>
 
             {/* Scrollable Content Area */}
-            <div className="flex-1 overflow-y-auto max-h-[600px] p-4 scrollbar-custom">
+            <div className="flex-1 overflow-y-auto max-h-[600px] p-4 ">
                 <div className="space-y-3 pb-4 ">
                     {scenes.map((scene) => (
                         <div
